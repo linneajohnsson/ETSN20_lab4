@@ -5,32 +5,39 @@ import java.util.Scanner;
 
 public class SearchFile{
 	
-	public SearchFile() {
-		
-	}
 	
-	public ArrayList<String> search(String pattern, String file) throws FileNotFoundException{
-		Scanner fileScanner = new Scanner(new File(file));
-		ArrayList<String> listOfLines = new ArrayList<String>();
-		while(fileScanner.hasNextLine()) {
-			String line = fileScanner.nextLine();
-			if(line.contains(pattern)) {
-				listOfLines.add(line);
+	public static void search(String pattern, String file){
+		Scanner fileScanner;
+		int i = 0;
+		try {
+			fileScanner = new Scanner(new File(file));
+			while(fileScanner.hasNextLine()) {
+				String line = fileScanner.nextLine();
+				
+				if(line.contains(pattern)) {
+					System.out.println(line);
+					i++;
+				}
 			}
+			if(i == 0){
+				System.out.println("File: " + file + " does not contain pattern: " + pattern);
+			}
+			fileScanner.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		return listOfLines;
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException{
-		SearchFile sf = new SearchFile();
-		ArrayList<String> list = sf.search("Hej", "cat.txt");
-		if(list.size() != 0) {
-			for(int i = 0; i<list.size(); i++){
-				System.out.println(list.get(i));
-			}
-		}else {
-			System.out.println("The word was not found");
-		}
+		String pattern;
+		String file;
+		if(args.length !=3 || !args[0].equals("search") || !args[2].contains(".")) {
+			throw new Error("Wrong input format! " + 
+					"Should be of the syntax: search <pattern> <file>");
+		}	
+		pattern = args[1];
+		file = args[2];
+		search(pattern, file);
 	}
 }
