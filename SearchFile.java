@@ -8,7 +8,7 @@ public class SearchFile{
 	
 	public static void search(String pattern, String file){
 		Scanner fileScanner;
-		int i = 0;
+		boolean patternFound = false;
 		try {
 			fileScanner = new Scanner(new File(file));
 			while(fileScanner.hasNextLine()) {
@@ -16,10 +16,10 @@ public class SearchFile{
 				
 				if(line.contains(pattern)) {
 					System.out.println(line);
-					i++;
+					patternFound = true;
 				}
 			}
-			if(i == 0){
+			if(!patternFound){
 				System.out.println("File: " + file + " does not contain pattern: " + pattern);
 			}
 			fileScanner.close();
